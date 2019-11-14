@@ -11,13 +11,11 @@ import (
 	"strings"
 )
 
-func SendSoap() GetStationBoardResult {
+func SendSoap() StationBoardResult {
+	var resp StationBoardResult
 
-	var resp GetStationBoardResult
 	url := fmt.Sprintf("%s%s%s",
-		"https://lite.realtime.nationalrail.co.uk",
-		"/OpenLDBWS",
-		"/ldb11.asmx",
+		"https://lite.realtime.nationalrail.co.uk", "/OpenLDBWS", "/ldb11.asmx",
 	)
 	crs := "SYL"
 	rows := 4
@@ -25,7 +23,7 @@ func SendSoap() GetStationBoardResult {
     <Envelope xmlns="http://www.w3.org/2003/05/soap-envelope">
     <Header>
         <AccessToken xmlns="http://thalesgroup.com/RTTI/2013-11-28/Token/types">
-            <TokenValue>` + token + `</TokenValue>
+            <TokenValue>` + getToken() + `</TokenValue>
         </AccessToken>
     </Header>
     <Body>
@@ -38,12 +36,9 @@ func SendSoap() GetStationBoardResult {
     </Body>
 </Envelope>`,
 	))
-
-	// soapAction := "GetDepartureBoardRequest"
-
 	httpMethod := "POST"
-
 	req, err := http.NewRequest(httpMethod, url, bytes.NewReader(payload))
+
 	if err != nil {
 		log.Fatal("Error on creating request object. ", err.Error())
 		return resp
@@ -51,29 +46,28 @@ func SendSoap() GetStationBoardResult {
 
 	req.Header.Set("Content-type", "text/xml")
 
-	client := &http.Client{
+	c := &http.Client{
 		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true,
-			},
+			TLSClientConfig: &tls.Config{},
 		},
 	}
 
-	res, err := client.Do(req)
+	res, err := c.Do(req)
 	if err != nil {
 		log.Fatal("Error on dispatching request. ", err.Error())
 		return resp
 	}
+	defer res.Body.Close()
 
-	result := new(Boardresults)
-	err = xml.NewDecoder(res.Body).Decode(result)
-	if err != nil {
+	result := new(boardResult)
+
+	if err = xml.NewDecoder(res.Body).Decode(result); err != nil {
 		log.Fatal("Error on unmarshaling xml. ", err.Error())
 		return resp
 	}
 
-	resp = result.Body.GetDepartureBoardResponse.GetStationBoardResult
-	fmt.Println(result.Body.GetDepartureBoardResponse.GetStationBoardResult)
-	return resp
+	resp = result.Body.GetDepartureBoardResponse.StationBoardResult
+	fmt.Println(resp)
 
+	return resp
 }

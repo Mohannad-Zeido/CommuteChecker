@@ -1,20 +1,21 @@
 package client
 
-type Boardresults struct {
+type boardResult struct {
 	Body struct {
-		GetDepartureBoardResponse GetDepartureBoardResponse `xml:"GetDepartureBoardResponse"`
+		GetDepartureBoardResponse getDepartureBoardResponse `xml:"GetDepartureBoardResponse"`
 	}
 }
 
-type GetDepartureBoardResponse struct {
-	GetStationBoardResult GetStationBoardResult `xml:"GetStationBoardResult"`
+type getDepartureBoardResponse struct {
+	StationBoardResult StationBoardResult `xml:"GetStationBoardResult"`
 }
-type GetStationBoardResult struct {
-	GeneratedAt          string        `xml:"generatedAt"`
-	LocationName         string        `xml:"locationName"`
-	Crs                  string        `xml:"crs"`
-	FilterLocationName   string        `xml:"filterLocationName"`
-	Filtercrs            string        `xml:"filtercrs"`
+
+type StationBoardResult struct {
+	RequestTime          string        `xml:"generatedAt"`
+	FromStationName      string        `xml:"locationName"`
+	FromStationCode      string        `xml:"crs"`
+	ToStationName        string        `xml:"filterLocationName"`
+	ToStationCode        string        `xml:"filtercrs"`
 	FilterType           string        `xml:"filterType"`
 	NrccMessages         string        `xml:"nrccMessages"`
 	PlatformAvailable    bool          `xml:"platformAvailable"`
@@ -27,5 +28,5 @@ type TrainServices struct {
 }
 
 type Service struct {
-	Std string `xml:"std"`
+	ExpectedTime string `xml:"std"`
 }
