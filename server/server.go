@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/Mohannad-Zeido/CommuteChecker/client"
 	"github.com/gorilla/mux"
@@ -14,7 +15,7 @@ import (
 type requestParameters struct {
 	FromStation  string `json:"fromStation"`
 	ToStation    string `json:"toStation"`
-	NumberOfRows int    `json:"numberOfRows"`
+	NumberOfRows string `json:"numberOfRows"`
 }
 
 func Init() {
@@ -41,7 +42,13 @@ func getBoardByStation(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	fmt.Println(newEvent)
 
-	if err = json.NewEncoder(w).Encode(client.SendSoap()); err != nil {
+	//todo: Place this somewhere else
+	newEvent.FromStation = strings.ToUpper(newEvent.FromStation)
+	newEvent.ToStation = strings.ToUpper(newEvent.ToStation)
+
+	if err = json.NewEncoder(w).Encode(
+		client.SendSoap(newEvent.FromStation, newEvent.ToStation, newEvent.NumberOfRows),
+	); err != nil {
 		return
 	}
 }

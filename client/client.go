@@ -7,18 +7,16 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	"strings"
 )
 
-func SendSoap() StationBoardResult {
+func SendSoap(toStation string, fromStation string, numberOfRows string) StationBoardResult {
 	var resp StationBoardResult
 
 	url := fmt.Sprintf("%s%s%s",
 		"https://lite.realtime.nationalrail.co.uk", "/OpenLDBWS", "/ldb11.asmx",
 	)
-	crs := "SYL"
-	rows := 4
+
 	payload := []byte(strings.TrimSpace(`
     <Envelope xmlns="http://www.w3.org/2003/05/soap-envelope">
     <Header>
@@ -28,9 +26,9 @@ func SendSoap() StationBoardResult {
     </Header>
     <Body>
         <GetDepartureBoardRequest xmlns="http://thalesgroup.com/RTTI/2017-10-01/ldb/">
-            <numRows>` + strconv.Itoa(rows) + `</numRows>
-			<crs>` + crs + `</crs>
-			<filterCrs>FEL</filterCrs>
+            <numRows>` + numberOfRows + `</numRows>
+			<crs>` + toStation + `</crs>
+			<filterCrs>` + fromStation + `</filterCrs>
             <filterType>to</filterType>
         </GetDepartureBoardRequest>
     </Body>
