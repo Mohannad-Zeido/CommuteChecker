@@ -1,6 +1,6 @@
 package main
 
-import "./server"
+import "github.com/Mohannad-Zeido/CommuteChecker/server"
 
 func main() {
 	server.Init()
