@@ -18,6 +18,7 @@ type requestParameters struct {
 	NumberOfRows string `json:"numberOfRows"`
 }
 
+//Init initialises the server and starts listening
 func Init() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", getBoardByStation).Methods("POST")
@@ -36,6 +37,7 @@ func getBoardByStation(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = json.Unmarshal(reqBody, &newEvent); err != nil {
+		fmt.Println(err)
 		return
 	}
 

@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+//SendSoap sends soap message to the OpenLDBWS api
 func SendSoap(toStation string, fromStation string, numberOfRows string) StationBoardResult {
 	var resp StationBoardResult
 
