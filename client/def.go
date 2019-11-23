@@ -28,5 +28,35 @@ type TrainServices struct {
 }
 
 type Service struct {
-	ExpectedTime string `xml:"std"`
+	Dta                     string          `xml:"sta"`
+	Eta                     string          `xml:"eta"`
+	Dtd                     string          `xml:"std"`
+	Etd                     string          `xml:"etd"`
+	CancelReason            string          `xml:"cancelReason"`
+	DelayReason             string          `xml:"delayReason"`
+	ServiceID               string          `xml:"serviceID"`
+	AdhocAlerts             string          `xml:"adhocAlerts"`
+	Operator                string          `xml:"operator"`
+	OperatorCode            string          `xml:"operatorCode"`
+	Rsid                    string          `xml:"rsid"`
+	ServiceType             string          `xml:"serviceType"`
+	Length                  string          `xml:"length"`
+	IsCircularRoute         bool            `xml:"isCircularRoute"`
+	Platform                bool            `xml:"platform"` //This has special conditions
+	IsCancelled             bool            `xml:"isCancelled"`
+	FilterLocationCancelled bool            `xml:"filterLocationCancelled"`
+	DetachFront             bool            `xml:"detachFront"`
+	IsReverseFormation      bool            `xml:"isReverseFormation"`
+	Origin                  ServiceLocation `xml:"origin"`
+	Destination             ServiceLocation `xml:"destination"`
+	CurrentOrigins          ServiceLocation `xml:"currentOrigins"`
+	CurrentDestinations     ServiceLocation `xml:"currentDestinations"`
+}
+
+type ServiceLocation struct {
+	LocationName     string
+	Crs              string
+	Via              string
+	FutureChangeTo   string
+	AssocIsCancelled string
 }
