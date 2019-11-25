@@ -28,9 +28,9 @@ type TrainServices struct {
 }
 
 type Service struct {
-	Dta                     string          `xml:"sta"`
+	Sta                     string          `xml:"sta"`
 	Eta                     string          `xml:"eta"`
-	Dtd                     string          `xml:"std"`
+	Std                     string          `xml:"std"`
 	Etd                     string          `xml:"etd"`
 	CancelReason            string          `xml:"cancelReason"`
 	DelayReason             string          `xml:"delayReason"`
@@ -41,22 +41,29 @@ type Service struct {
 	Rsid                    string          `xml:"rsid"`
 	ServiceType             string          `xml:"serviceType"`
 	Length                  string          `xml:"length"`
+	Platform                string          `xml:"platform"`
 	IsCircularRoute         bool            `xml:"isCircularRoute"`
-	Platform                bool            `xml:"platform"` //This has special conditions
 	IsCancelled             bool            `xml:"isCancelled"`
 	FilterLocationCancelled bool            `xml:"filterLocationCancelled"`
 	DetachFront             bool            `xml:"detachFront"`
 	IsReverseFormation      bool            `xml:"isReverseFormation"`
-	Origin                  ServiceLocation `xml:"origin"`
-	Destination             ServiceLocation `xml:"destination"`
-	CurrentOrigins          ServiceLocation `xml:"currentOrigins"`
+	Origin                  ServiceLocation `xml:"origin" json:"origin,omitempty"`
+	Destination             ServiceLocation `xml:"destination" json:"destination,omitempty"`
+	CurrentOrigins          ServiceLocation `xml:"currentOrigins" json:"currentOrigins,omitempty"`
 	CurrentDestinations     ServiceLocation `xml:"currentDestinations"`
 }
 
+//platform This has special conditions
 type ServiceLocation struct {
-	LocationName     string
-	Crs              string
-	Via              string
-	FutureChangeTo   string
-	AssocIsCancelled string
+	LocationName     string `xml:"locationName" json:"location_name,omitempty"`
+	Crs              string `xml:"crs" json:"crs,omitempty"`
+	Via              string `xml:"via" json:"via,omitempty"`
+	FutureChangeTo   string `xml:"futureChangeTo" json:"future_change_to,omitempty"`
+	AssocIsCancelled string `xml:"assocIsCancelled" json:"assoc_is_cancelled,omitempty"`
+}
+
+type RequestParameters struct {
+	FromStation  string `json:"fromStation"`
+	ToStation    string `json:"toStation"`
+	NumberOfRows string `json:"numberOfRows"`
 }

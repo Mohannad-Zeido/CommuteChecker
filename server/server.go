@@ -3,20 +3,12 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Mohannad-Zeido/CommuteChecker/client"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
-
-	"github.com/Mohannad-Zeido/CommuteChecker/client"
-	"github.com/gorilla/mux"
 )
-
-type requestParameters struct {
-	FromStation  string `json:"fromStation"`
-	ToStation    string `json:"toStation"`
-	NumberOfRows string `json:"numberOfRows"`
-}
 
 //Init initialises the server and starts listening
 func Init() {
@@ -27,7 +19,7 @@ func Init() {
 }
 
 func getBoardByStation(w http.ResponseWriter, r *http.Request) {
-	var newEvent requestParameters
+	var newEvent client.RequestParameters
 
 	reqBody, err := ioutil.ReadAll(r.Body)
 
@@ -41,15 +33,12 @@ func getBoardByStation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	fmt.Println(newEvent)
 
-	//todo: Place this somewhere else
-	newEvent.FromStation = strings.ToUpper(newEvent.FromStation)
-	newEvent.ToStation = strings.ToUpper(newEvent.ToStation)
-
 	if err = json.NewEncoder(w).Encode(
-		client.SendSoap(newEvent.FromStation, newEvent.ToStation, newEvent.NumberOfRows),
+		client.SendSoap(newEvent),
 	); err != nil {
 		return
 	}
