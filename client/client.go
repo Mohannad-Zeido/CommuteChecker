@@ -14,7 +14,6 @@ import (
 func SendSoap(params RequestParameters) StationBoardResult {
 	var resp StationBoardResult
 
-	//todo: Place this somewhere else
 	params.FromStation = strings.ToUpper(params.FromStation)
 	params.ToStation = strings.ToUpper(params.ToStation)
 
@@ -59,6 +58,7 @@ func SendSoap(params RequestParameters) StationBoardResult {
 		log.Fatal("Error on dispatching request. ", err.Error())
 		return resp
 	}
+
 	defer func() {
 		if err := res.Body.Close(); err != nil {
 			log.Fatal("Error on close. ", err.Error())
@@ -74,6 +74,7 @@ func SendSoap(params RequestParameters) StationBoardResult {
 	}
 
 	resp = result.Body.GetDepartureBoardResponse.StationBoardResult
+
 	fmt.Println("resp")
 	fmt.Println(resp)
 
