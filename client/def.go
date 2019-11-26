@@ -11,16 +11,16 @@ type getDepartureBoardResponse struct {
 }
 
 type StationBoardResult struct {
-	RequestTime          string        `xml:"generatedAt"`
-	FromStationName      string        `xml:"locationName"`
-	FromStationCode      string        `xml:"crs"`
-	ToStationName        string        `xml:"filterLocationName"`
-	ToStationCode        string        `xml:"filtercrs"`
-	FilterType           string        `xml:"filterType"`
-	NrccMessages         string        `xml:"nrccMessages"`
-	PlatformAvailable    bool          `xml:"platformAvailable"`
-	AreServicesAvailable bool          `xml:"areServicesAvailable"`
-	TrainServices        TrainServices `xml:"trainServices"`
+	RequestTime          string        `xml:"generatedAt" json:"request_time,omitempty"`
+	FromStationName      string        `xml:"locationName" json:"from_station_name,omitempty"`
+	FromStationCode      string        `xml:"crs" json:"from_station_code,omitempty"`
+	ToStationName        string        `xml:"filterLocationName" json:"to_station_name,omitempty"`
+	ToStationCode        string        `xml:"filtercrs" json:"to_station_code,omitempty"`
+	FilterType           string        `xml:"filterType" json:"filter_type,omitempty"`
+	NrccMessages         string        `xml:"nrccMessages" json:"nrcc_messages,omitempty"`
+	PlatformAvailable    bool          `xml:"platformAvailable" json:"platform_available,omitempty"`
+	AreServicesAvailable bool          `xml:"areServicesAvailable" json:"are_services_available,omitempty"`
+	TrainServices        TrainServices `xml:"trainServices" json:"train_services,omitempty"`
 }
 
 type TrainServices struct {
@@ -28,32 +28,33 @@ type TrainServices struct {
 }
 
 type Service struct {
-	Sta                     string          `xml:"sta"`
-	Eta                     string          `xml:"eta"`
-	Std                     string          `xml:"std"`
-	Etd                     string          `xml:"etd"`
-	CancelReason            string          `xml:"cancelReason"`
-	DelayReason             string          `xml:"delayReason"`
-	ServiceID               string          `xml:"serviceID"`
-	AdhocAlerts             string          `xml:"adhocAlerts"`
-	Operator                string          `xml:"operator"`
-	OperatorCode            string          `xml:"operatorCode"`
-	Rsid                    string          `xml:"rsid"`
-	ServiceType             string          `xml:"serviceType"`
-	Length                  string          `xml:"length"`
-	Platform                string          `xml:"platform"`
-	IsCircularRoute         bool            `xml:"isCircularRoute"`
-	IsCancelled             bool            `xml:"isCancelled"`
-	FilterLocationCancelled bool            `xml:"filterLocationCancelled"`
-	DetachFront             bool            `xml:"detachFront"`
-	IsReverseFormation      bool            `xml:"isReverseFormation"`
+	ArrivalTime             string          `xml:"sta" json:"arrival_time,omitempty"`
+	EstimatedArrivalTime    string          `xml:"eta" json:"estimated_arrival_time,omitempty"`
+	DepartureTime           string          `xml:"std" json:"departure_time,omitempty"`
+	EstimatedDepartureTime  string          `xml:"etd" json:"estimated_departure_time,omitempty"`
+	CancelReason            string          `xml:"cancelReason" json:"cancel_reason,omitempty"`
+	DelayReason             string          `xml:"delayReason" json:"delay_reason,omitempty"`
+	ServiceID               string          `xml:"serviceID" json:"service_id,omitempty"`
+	AdhocAlerts             string          `xml:"adhocAlerts" json:"adhoc_alerts,omitempty"`
+	Operator                string          `xml:"operator" json:"operator,omitempty"`
+	OperatorCode            string          `xml:"operatorCode" json:"operator_code,omitempty"`
+	Rsid                    string          `xml:"rsid" json:"rsid,omitempty"`
+	ServiceType             string          `xml:"serviceType" json:"service_type,omitempty"`
+	Length                  string          `xml:"length" json:"length,omitempty"`
+	Platform                string          `xml:"platform" json:"platform,omitempty"`
+	IsCircularRoute         bool            `xml:"isCircularRoute" json:"is_circular_route,omitempty"`
+	IsCancelled             bool            `xml:"isCancelled" json:"is_cancelled,omitempty"`
+	FilterLocationCancelled bool            `xml:"filterLocationCancelled" json:"filter_location_cancelled,omitempty"`
+	DetachFront             bool            `xml:"detachFront" json:"detach_front,omitempty"`
+	IsReverseFormation      bool            `xml:"isReverseFormation" json:"is_reverse_formation,omitempty"`
 	Origin                  ServiceLocation `xml:"origin" json:"origin,omitempty"`
 	Destination             ServiceLocation `xml:"destination" json:"destination,omitempty"`
-	CurrentOrigins          ServiceLocation `xml:"currentOrigins" json:"currentOrigins,omitempty"`
+	CurrentOrigins          ServiceLocation `xml:"currentOrigins" json:"current_origins,omitempty"`
 	CurrentDestinations     ServiceLocation `xml:"currentDestinations"`
 }
 
 //platform This has special conditions
+
 type ServiceLocation struct {
 	LocationName     string `xml:"locationName" json:"location_name,omitempty"`
 	Crs              string `xml:"crs" json:"crs,omitempty"`
