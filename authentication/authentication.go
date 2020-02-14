@@ -10,9 +10,17 @@ import (
 // or read the file at the start of running and store token in memory
 
 func readFile() (string, error){
-	dat, err := ioutil.ReadFile("./authentication/token.txt")
+	data, err := ioutil.ReadFile("./authentication/token.txt")
 	if err != nil{
 		return "", err
 	}
-	return strings.TrimSpace(string(dat)), nil
+	return strings.TrimSpace(string(data)), nil
+}
+
+func GetToken() (string, error){
+	token, err := readFile()
+	if err != nil{
+		return "", err
+	}
+	return token, nil
 }

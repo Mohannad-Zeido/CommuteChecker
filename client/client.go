@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"encoding/xml"
 	"fmt"
+	"github.com/Mohannad-Zeido/CommuteChecker/authentication"
 	"log"
 	"net/http"
 	"strings"
@@ -13,6 +14,7 @@ import (
 //SendSoap sends soap message to the OpenLDBWS api
 func SendSoap(params RequestParameters) StationBoardResult {
 	var resp StationBoardResult
+	token, _ := authentication.GetToken()
 
 	params.FromStation = strings.ToUpper(params.FromStation)
 	params.ToStation = strings.ToUpper(params.ToStation)
@@ -25,7 +27,7 @@ func SendSoap(params RequestParameters) StationBoardResult {
 	   <Envelope xmlns="http://www.w3.org/2003/05/soap-envelope">
 	   <Header>
 	       <AccessToken xmlns="http://thalesgroup.com/RTTI/2013-11-28/Token/types">
-	           <TokenValue>` + getToken() + `</TokenValue>
+	           <TokenValue>` + token + `</TokenValue>
 	       </AccessToken>
 	   </Header>
 	   <Body>
